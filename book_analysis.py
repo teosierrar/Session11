@@ -1,15 +1,24 @@
-book=requests.get("https://www.gutenberg.org/cache/epub/345/pg345.txt")
 
+import requests
 
-
-import
+book = requests.get('https://www.gutenberg.org/cache/epub/345/pg345.txt')
 print(book.text)
-lines=book.text.split('\n')
-punctuation_remove=",.!?;"
-punctuation_space="'\"()[]=-_"
-for lines in lines:
+lines = book.text.split('\n')
+punctuation_remove = ",.!?:;"
+punctuation_space = "',\()[]=-+_"
+unique_words = {}
+
+for line in lines:
+    # replace punctuation
     for c in punctuation_remove:
-        line=line.replace(c,"")
+        line = line.replace(c, " ")
     for c in punctuation_space:
-        line=line.replace(c," ")
-    print(line)
+        line = line.replace(c, " ")
+    words = line.split()
+    for word in words:
+        word = word.lower()
+        unique_words[word] = unique_words.get(word, 0) + 1
+
+print(unique_words)
+print(unique_words['the'])
+print(unique_words['dracula'])
